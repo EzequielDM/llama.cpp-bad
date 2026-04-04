@@ -70,6 +70,39 @@ range of hardware - locally and in the cloud.
 
 The `llama.cpp` project is the main playground for developing new features for the [ggml](https://github.com/ggml-org/ggml) library.
 
+## Fork-specific features
+
+This fork extends upstream llama.cpp with additional quantization formats and KV cache compression:
+
+### TurboQuant KV cache (`turbo3`, `turbo4`, `turbo2`)
+
+Hardware-accelerated KV cache compression using PolarQuant + Walsh-Hadamard Transform rotation, with Metal (Apple Silicon) and CUDA (NVIDIA RTX 5090 / SM 12.0) backends. HIP/ROCm support is also included.
+
+| Type | Bits | Compression | Notes |
+| --- | --- | --- | --- |
+| `turbo3` | 3-bit | ~5x | 2-bit PolarQuant + 1-bit QJL, block size 128 |
+| `turbo4` | 4-bit | ~3.8x | 3-bit PolarQuant + 1-bit QJL |
+| `turbo2` | 2-bit | ~6.4x | 2-bit PolarQuant (no QJL), enabled for V cache |
+
+Additional optimizations: sparse V dequantization (skip negligible attention weights), layer-adaptive KV cache, asymmetric K/V quantization, and Boundary V (experimental layer-aware V compression).
+
+Usage:
+```sh
+# Use turbo3 for both K and V cache
+llama-cli -m model.gguf -ctk turbo3 -ctv turbo3
+
+# Mixed: turbo3 for K, q8_0 for V
+llama-cli -m model.gguf -ctk turbo3 -ctv q8_0
+```
+
+### Q1_0 / Q1_0_g128 (1-bit quantization)
+
+Binary (1-bit) quantization formats for extreme compression. Each weight is stored as a single bit with an fp16 scale. `Q1_0` uses 32-element blocks, `Q1_0_g128` uses 128-element blocks. Supported on CPU, Metal, and CUDA.
+
+### NVFP4
+
+NVIDIA's FP4 quantization format with E4M3 scaling, using 4-block grouped quantization.
+
 <details>
 <summary>Models</summary>
 

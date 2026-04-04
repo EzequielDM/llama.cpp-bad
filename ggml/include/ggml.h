@@ -431,7 +431,9 @@ extern "C" {
         GGML_TYPE_TURBO3_0 = 41, // TurboQuant 3-bit KV cache: 2-bit PolarQuant + 1-bit QJL
         GGML_TYPE_TURBO4_0 = 42, // TurboQuant 4-bit KV cache: 3-bit PolarQuant + 1-bit QJL
         GGML_TYPE_TURBO2_0 = 43, // TurboQuant 2-bit KV cache: 2-bit PolarQuant (no QJL)
-        GGML_TYPE_COUNT   = 44,
+        GGML_TYPE_Q1_0_g128 = 44,
+        GGML_TYPE_Q1_0    = 45,
+        GGML_TYPE_COUNT   = 46,
     };
 
     // precision
@@ -467,7 +469,9 @@ extern "C" {
         GGML_FTYPE_MOSTLY_IQ1_M   = 23, // except 1d tensors
         GGML_FTYPE_MOSTLY_BF16    = 24, // except 1d tensors
         GGML_FTYPE_MOSTLY_MXFP4   = 25, // except 1d tensors
-        GGML_FTYPE_MOSTLY_NVFP4   = 26, // except 1d tensors
+        GGML_FTYPE_MOSTLY_NVFP4     = 26, // except 1d tensors
+        GGML_FTYPE_MOSTLY_Q1_0_g128 = 27, // except 1d tensors
+        GGML_FTYPE_MOSTLY_Q1_0      = 28, // except 1d tensors
     };
 
     // available tensor operations:

@@ -8,11 +8,8 @@
 //
 // TODO: for optimal performance, become function of the device and work size
 
-#define N_R0_Q1_0 4
+#define N_R0_Q1_0 8
 #define N_SG_Q1_0 2
-
-#define N_R0_Q1_0_g128 4
-#define N_SG_Q1_0_g128 2
 
 #define N_R0_Q4_0 4
 #define N_SG_Q4_0 2
@@ -91,7 +88,6 @@
 #define FC_SUM_ROWS                    1400
 #define FC_UPSCALE                     1500
 #define FC_GATED_DELTA_NET             1600
-#define FC_TURBO_WHT                   1700
 
 // op-specific constants
 #define OP_FLASH_ATTN_EXT_NQPSG 8
@@ -878,11 +874,6 @@ typedef struct {
     uint64_t nb2;
     uint64_t nb3;
 } ggml_metal_kargs_gated_delta_net;
-
-typedef struct {
-    int64_t  n_elements;  // total elements in tensor
-    int32_t  direction;   // 0 = forward, 1 = inverse
-} ggml_metal_kargs_turbo_wht;
 
 typedef struct {
     int32_t  ne00;
